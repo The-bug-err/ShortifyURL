@@ -44,9 +44,8 @@ class ShortenURL(ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         try:
-            urls = list(self.queryset)[0]
-            original_url = self.request.query_params.get('url', None)
-            tiny_url = str(shoten_url(original_url=original_url))
+            original_url = self.request.query_params.get('url')
+			tiny_url = str(shoten_url(original_url=original_url))
             url_lookup = dict(
                 short_url=tiny_url,
                 original_url=original_url
