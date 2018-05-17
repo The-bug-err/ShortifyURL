@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="get" action="generate">
+  Enter URL to be shortened : <input type="text" name="url">
+    <br>
+  <button type="submit">Get Shortened URL</button>
+</form>
+{% if some_data%}
+<p><a href="{{some_data}}">{{some_data}}</a></p>
+{% endif %}
+</body>
+</html>
