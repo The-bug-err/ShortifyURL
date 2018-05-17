@@ -8,7 +8,7 @@ from django.conf import settings
 
 
 def index(request):
-    return render(request, 'shortifyURL/index.html', {})
+    return render(request, 'shortifyUrl/index.html', {})
 
 
 def redirect_func(request, tiny_url):
@@ -21,7 +21,7 @@ def redirect_func(request, tiny_url):
             url_obj = UrlMap.objects.get(short_url=tiny_url)
             return redirect(url_obj.original_url)
         except Exception as e:
-            return render(request, 'shortifyURL/index.html',
+            return render(request, 'shortifyUrl/index.html',
                           {'some_data': 'Could not find matching URL in DB, Exception : {}'.format(e)})
 
 
@@ -58,13 +58,13 @@ class ShortenURL(ModelViewSet):
             current_url = settings.ALIAS + '/' + tiny_url
             domain = request.build_absolute_uri().rsplit('/', 1)[0]
             link = domain + '/' + current_url
-            return render(request, 'shortifyURL/index.html', {'some_data': link})
+            return render(request, 'shortifyUrl/index.html', {'some_data': link})
         except Exception as e:
-            return render(request, 'shortifyURL/index.html',
+            return render(request, 'shortifyUrl/index.html',
                           {'some_data': 'Exception occurred during the creation of URL {}'.format(e)})
 
     def create(self, request, *args, **kwargs):
         try:
-            return render(request, 'shortifyURL/index.html', {'some_data': 'Reached Create endpoint.'})
+            return render(request, 'shortifyUrl/index.html', {'some_data': 'Reached Create endpoint.'})
         except Exception as e:
-            return render(request, 'shortifyURL/index.html', {'some_data': 'Exception in create. {}'.format(e)})
+            return render(request, 'shortifyUrl/index.html', {'some_data': 'Exception in create. {}'.format(e)})
