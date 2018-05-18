@@ -25,13 +25,20 @@ def redirect_func(request, tiny_url):
                           {'some_data': 'Could not find matching URL in DB, Exception : {}'.format(e)})
 
 
-def shoten_url(original_url):
+def shoten_url(original_url, alias=None):
     """
     Use MD5 hash of the original URL to get a unique hash value,
     then encode the hash value to get a possible alias.
     :param original_url: original URL to be shortened.
+    :param alias: An alias to be used as tiny URL.
     :return: Shortened version of URL.
     """
+    if alias:
+        already_exists = list(UrlMap.objects.filter(short_url=alias))
+        if already_exists:
+            return 0
+        else:
+            return alias
     hash_object = hashlib.md5(original_url.encode())
     hex_object = hash_object.digest()
     possible_alias = base64.b64encode(hex_object).decode("utf-8")
@@ -40,12 +47,16 @@ def shoten_url(original_url):
 
 class ShortenURL(ModelViewSet):
     queryset = UrlMap.objects.all()
+
     # allowed_methods = ['GET']
 
     def list(self, request, *args, **kwargs):
         try:
             original_url = self.request.query_params.get('url')
-            tiny_url = str(shoten_url(original_url=original_url))
+            alias = self.request.query_params.get('alias', None)
+            tiny_url = str(shoten_url(original_url=original_url, alias=alias))
+            if tiny_url == '0':
+                return render(request, 'shortifyUrl/index.html', {'some_data': 'The above Alias is already used.'})
             url_lookup = dict(
                 short_url=tiny_url,
                 original_url=original_url

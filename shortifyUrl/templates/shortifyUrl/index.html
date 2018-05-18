@@ -6,9 +6,12 @@
 </head>
 <body>
 <form method="get" action="generate">
-  Enter URL to be shortened : <input type="text" name="url">
+    Enter URL to be shortened : <input type="text" name="url">
     <br>
-  <button type="submit">Get Shortened URL</button>
+    Enter an Alias (not mandatory): <input type="text" name="alias">
+
+    <p>If Alias provided, the tool tries to generate a URL with above mentioned alias.</p>
+    <button type="submit">Get Shortened URL</button>
 </form>
 {% if some_data%}
 <p><a href="{{some_data}}">{{some_data}}</a></p>
